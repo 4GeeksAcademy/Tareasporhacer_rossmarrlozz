@@ -1,12 +1,67 @@
+body{
+    background-image: url(https://images.pexels.com/photos/8749395/pexels-photo-8749395.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1);
+    background-repeat: no-repeat;
+    background-size: cover;
+   
+}
 
-/* 
+.tituloprincipal{
+    color: white;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: xx-large;
+    
+}
 
-    You can write your own styles here...
-    
-    
-    ...Or you can use the import command to include 
-    other sylesheets into your bunde as well, e.j:
-    
-    import 'relative/path/to/stylesheet.scss';
+.contenedorprincipal{
+    min-height: 700px;
+    margin: auto;
+    margin-top: 50px;
+    border-radius: 100px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: large;
+}
 
-*/
+.tareasContenedor{
+    max-height: 700px; 
+    overflow-y: auto;
+    
+}
+
+/* .contenedor-tareas{
+    background-color: rgba(118, 118, 245, 0.596);
+    display: inline-flex;
+    align-items: center;
+    padding-top: 3%;
+    padding-left: 7.5%;
+   
+} */
+
+/* .addtarea{
+    width:450px;
+    min-height: 40px;
+    margin: auto;
+    cursor: pointer;
+} */
+
+.boton-eliminar{
+    cursor: pointer; 
+}
+
+/* .listadetareas{
+    background-color:  rgba(72, 72, 247, 0.596);
+    border-radius: 40px;
+    cursor: pointer; 
+    text-align: left;
+    color: white;
+    font-size: medium;
+}
+
+.contenedor-listadetareas{
+    padding-top: 3%;
+    
+}
+
+.trash{
+    height: 30px;
+} */
+

@@ -21,6 +21,10 @@ body{
     font-size: large;
 }
 
+.estiloCard{
+    background-color: rgba(118, 118, 245, 0.596);
+}
+
 .tareasContenedor{
     max-height: 700px; 
     overflow-y: auto;

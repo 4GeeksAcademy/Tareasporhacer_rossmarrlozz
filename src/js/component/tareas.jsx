@@ -6,79 +6,42 @@ export const Tareas = () => {
 
 	const [addtarea, setAddtarea] = useState("Agrega una tarea");
 	const [nuevalista, setNuevalista] = useState([]);
-	const [deleteTarea, setDeleteTarea] =useState("No hay tareas por hacer");
-	
-
 	const handleChange = (event) => { setAddtarea(event.target.value); };
-	const handleClick = () => {setNuevalista([...nuevalista, addtarea]);};
-	const borrartarea = (index) => {
-		const trashs = nuevalista.filter((list, i) => i !== index)
-		setNuevalista(trashs);
+	const handleClick = async () => {
+		const response= await fetch("https://playground.4geeks.com/todo/todos/rossmarrlozz", {
+			method:"POST",
+			headers:{
+				"Content-Type":"application/json"
+			},
+			body:JSON.stringify({label:addtarea, is_done:false})
+		});
+		const data= await response.json()
+		setNuevalista([...nuevalista, data]);
 	};
+	const borrartarea = async (tarea) => {
+		await fetch( `https://playground.4geeks.com/todo/todos/${tarea.id}`,{
+			method:"DELETE"
+		});
+		sincronizar();
+			};
 	const limpiarTareas = () => {
 		setNuevalista([]);
 	};
 
+	const solicitarListaDeTareas= async ()=>{
+		const response = await fetch("https://playground.4geeks.com/todo/users/rossmarrlozz",{
+			method:"GET"
+			});
+			const data =await response.json();
+			return data.todos;
+	};
+	const sincronizar=async()=>{
+		const listaDeTareas= await solicitarListaDeTareas();
+		setNuevalista(listaDeTareas);
+	};
 	useEffect(()=>{
-		const sincronizarAgregarNuevaTarea = fetch('https://playground.4geeks.com/todo/todos/RossMarrLozz', {
-			method: "PUT",	
-			body: JSON.stringify(),
-			headers: {
-			  "Content-Type": "application/json"
-			}
-		  })
-		  .then(resp => {
-			  console.log(resp.ok); // Será true si la respuesta es exitosa
-			  console.log(resp.status); // El código de estado 200, 300, 400, etc.
-			  console.log(resp.text()); // Intentará devolver el resultado exacto como string
-			  return resp.json(); // Intentará parsear el resultado a JSON y retornará una promesa donde puedes usar .then para seguir con la lógica
-		  })
-		  .then(data => {
-			  // Aquí es donde debe comenzar tu código después de que finalice la búsqueda
-			  console.log(data); // Esto imprimirá en la consola el objeto exacto recibido del servidor
-			  setAddtarea(data);
-			  setDeleteTarea(data)
-		  })
-		  .catch(error => {
-			  // Manejo de errores
-			  console.log(error);
-		  });
-		  
+		sincronizar();
 	},[]);
-	
-
-	useEffect(()=>{
-		const obtenerDatosApi = fetch('https://playground.4geeks.com/todo/todos/${user} ', {
-			method: "GET",	
-			body: JSON.stringify(),
-			headers: {
-			  "Content-Type": "application/json"
-			}
-		  })
-		  .then(resp => {
-			  console.log(resp.ok); // Será true si la respuesta es exitosa
-			  console.log(resp.status); // El código de estado 200, 300, 400, etc.
-			  console.log(resp.text()); // Intentará devolver el resultado exacto como string
-			  return resp.json(); // Intentará parsear el resultado a JSON y retornará una promesa donde puedes usar .then para seguir con la lógica
-		  })
-		  .then(data => {
-			  // Aquí es donde debe comenzar tu código después de que finalice la búsqueda
-			  console.log(data); // Esto imprimirá en la consola el objeto exacto recibido del servidor
-			  setNuevalista(data)
-			 
-		  })
-		  .catch(error => {
-			  // Manejo de errores
-			  console.log(error);
-		  });
-		  
-	},[]);
-	
-
-
-
-	  
-
 
 	return (
 		<Container>
@@ -88,7 +51,8 @@ export const Tareas = () => {
 
 				<ListGroup variant="flush">
 					<ListGroup.Item >
-						<input type="text"
+						<input
+							type="text"
 							onChange={handleChange}
 							placeholder="Agrega una tarea"
 						/>
@@ -99,10 +63,10 @@ export const Tareas = () => {
 				</ListGroup>
 				<div className="tareasContenedor">
 					<ul >
-						{nuevalista.map((list, index) => (
+						{nuevalista.map((tarea, index) => (
 							<li key={index}>
-								{list}
-								<button onClick={() => borrartarea(index)}>
+								{tarea.label}
+								<button onClick={() => borrartarea(tarea)}>
 									<i className="fa fa-trash"></i></button>
 							</li>
 						))}

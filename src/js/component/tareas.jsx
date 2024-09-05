@@ -24,7 +24,13 @@ export const Tareas = () => {
 		});
 		sincronizar();
 			};
-	const limpiarTareas = () => {
+	const limpiarTareas = async () => {
+		await fetch("https://playground.4geeks.com/todo/users/rossmarrlozz", {
+			method:"DELETE"
+		});
+		await fetch("https://playground.4geeks.com/todo/users/rossmarrlozz", {
+			method:"POST"
+		});
 		setNuevalista([]);
 	};
 

@@ -1,8 +1,8 @@
 body{
-    background-image: url(https://images.pexels.com/photos/8749395/pexels-photo-8749395.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1);
+    background-image: url(https://i.pinimg.com/564x/23/34/18/23341898dcd3669f8e7910a77625b88d.jpg), url(https://i.pinimg.com/564x/cb/af/83/cbaf835dbc1ff7da45cedc5f910fa383.jpg);
+    background-position: left center, right center;
     background-repeat: no-repeat;
-    background-size: cover;
-   
+    /* background-size: cover; */
 }
 
 .tituloprincipal{
@@ -31,41 +31,8 @@ body{
     
 }
 
-/* .contenedor-tareas{
-    background-color: rgba(118, 118, 245, 0.596);
-    display: inline-flex;
-    align-items: center;
-    padding-top: 3%;
-    padding-left: 7.5%;
-   
-} */
-
-/* .addtarea{
-    width:450px;
-    min-height: 40px;
-    margin: auto;
-    cursor: pointer;
-} */
-
 .boton-eliminar{
     cursor: pointer; 
 }
 
-/* .listadetareas{
-    background-color:  rgba(72, 72, 247, 0.596);
-    border-radius: 40px;
-    cursor: pointer; 
-    text-align: left;
-    color: white;
-    font-size: medium;
-}
-
-.contenedor-listadetareas{
-    padding-top: 3%;
-    
-}
-
-.trash{
-    height: 30px;
-} */
 

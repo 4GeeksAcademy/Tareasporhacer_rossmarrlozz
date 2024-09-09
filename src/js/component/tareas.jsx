@@ -1,53 +1,69 @@
 import React, { useEffect, useState } from "react";
 import { Container, Card, ListGroup } from "react-bootstrap";
-
+import "/src/styles/index.css"
 
 export const Tareas = () => {
 
-	const [addtarea, setAddtarea] = useState("Agrega una tarea");
-	const [nuevalista, setNuevalista] = useState([]);
+	const [addtarea, setAddtarea] = useState(""); /*Guarda el texto para una nueva tarea.*/
+	const [nuevalista, setNuevalista] = useState([]); /*Guarda la lista de tareas*/
+
 	const handleChange = (event) => { setAddtarea(event.target.value); };
 	const handleClick = async () => {
-		const response= await fetch("https://playground.4geeks.com/todo/todos/rossmarrlozz", {
-			method:"POST",
-			headers:{
-				"Content-Type":"application/json"
+		const response = await fetch("https://playground.4geeks.com/todo/todos/rossmarrlozz", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
 			},
-			body:JSON.stringify({label:addtarea, is_done:false})
+			body: JSON.stringify({ label: addtarea, is_done: false })
 		});
-		const data= await response.json()
+		const data = await response.json()
 		setNuevalista([...nuevalista, data]);
+		setAddtarea("")
 	};
 	const borrartarea = async (tarea) => {
-		await fetch( `https://playground.4geeks.com/todo/todos/${tarea.id}`,{
-			method:"DELETE"
+		await fetch(`https://playground.4geeks.com/todo/todos/${tarea.id}`, {
+			method: "DELETE"
 		});
 		sincronizar();
-			};
+	};
 	const limpiarTareas = async () => {
 		await fetch("https://playground.4geeks.com/todo/users/rossmarrlozz", {
-			method:"DELETE"
+			method: "DELETE"
 		});
 		await fetch("https://playground.4geeks.com/todo/users/rossmarrlozz", {
-			method:"POST"
+			method: "POST"
 		});
 		setNuevalista([]);
 	};
 
-	const solicitarListaDeTareas= async ()=>{
-		const response = await fetch("https://playground.4geeks.com/todo/users/rossmarrlozz",{
-			method:"GET"
-			});
-			const data =await response.json();
+	const solicitarListaDeTareas = async () => {
+		const response = await fetch("https://playground.4geeks.com/todo/users/rossmarrlozz", {
+			method: "GET"
+		});
+		if (!response.ok) {
+			createUser()
+		} else {
+			const data = await response.json();
 			return data.todos;
+		}
 	};
-	const sincronizar=async()=>{
-		const listaDeTareas= await solicitarListaDeTareas();
+	const createUser = async () => {
+		const response = await fetch("https://playground.4geeks.com/todo/users/rossmarrlozz", {
+			method: "POST"
+		})
+		if (response.ok) {
+			sincronizar()
+		}
+	}
+
+
+	const sincronizar = async () => {
+		const listaDeTareas = await solicitarListaDeTareas();
 		setNuevalista(listaDeTareas);
 	};
-	useEffect(()=>{
+	useEffect(() => {
 		sincronizar();
-	},[]);
+	}, []);
 
 	return (
 		<Container>
@@ -61,6 +77,12 @@ export const Tareas = () => {
 							type="text"
 							onChange={handleChange}
 							placeholder="Agrega una tarea"
+							value={addtarea}
+							onKeyDown={(e) => {
+								if (e.key == "Enter") {
+									handleClick()
+								}
+							}}
 						/>
 						<button className='btn btn-info' onClick={handleClick}>
 							<i className="fa fa-plus"></i>
